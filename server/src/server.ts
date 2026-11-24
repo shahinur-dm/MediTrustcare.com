@@ -6,12 +6,19 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
 import { connectDB } from './config/db';
 import { errorHandler } from './middlewares/errorHandler';
 import apiRoutes from './routes/api';
 import { initNotificationSocket } from './services/notificationService';
 
-dotenv.config();
+// Load .env from root or server directory
+if (fs.existsSync(path.resolve(__dirname, '../.env'))) {
+  dotenv.config({ path: path.resolve(__dirname, '../.env') });
+} else {
+  dotenv.config();
+}
 
 const app = express();
 const server = http.createServer(app);
