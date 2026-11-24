@@ -35,7 +35,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (isAuthenticated) {
       fetchNotifications();
 
-      const socket: Socket = io({ path: '/socket.io' });
+      const socket: Socket = io({ path: '/socket.io', reconnectionAttempts: 3, timeout: 5000 });
       if (user?.role) socket.emit('join_role', user.role);
       if (user?.id) socket.emit('join_user', user.id);
 
