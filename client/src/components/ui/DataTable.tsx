@@ -121,8 +121,8 @@ export function DataTable<T extends Record<string, any>>({
       </div>
 
       {/* Pagination Footer */}
-      <div className="p-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-xs text-slate-500">
-        <span>
+      <div className="p-3 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <span className="text-center sm:text-left">
           Showing {filteredData.length === 0 ? 0 : (currentPage - 1) * pageSize + 1} to{' '}
           {Math.min(currentPage * pageSize, filteredData.length)} of {filteredData.length} records
         </span>

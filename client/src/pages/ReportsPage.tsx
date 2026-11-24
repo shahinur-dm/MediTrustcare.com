@@ -47,6 +47,7 @@ export const ReportsPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print">
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight">Business Intelligence & Tax Reports</h1>
@@ -73,22 +74,22 @@ export const ReportsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Report Selector Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 text-xs no-print">
+      {/* Report Selector Tabs with mobile horizontal scroll */}
+      <div className="flex items-center gap-2 border-b border-slate-200 text-xs no-print overflow-x-auto whitespace-nowrap pb-1">
         <button
           onClick={() => setActiveReport('sales')}
-          className={`pb-2.5 px-3 font-semibold border-b-2 transition-colors flex items-center gap-2 ${
+          className={`pb-2.5 px-3 font-semibold border-b-2 transition-colors flex items-center gap-2 shrink-0 ${
             activeReport === 'sales'
               ? 'border-brand-600 text-brand-600'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
           <BarChart3 className="w-4 h-4" />
-          <span>Sales & Revenue Summary</span>
+          <span>Sales & VAT Audit</span>
         </button>
         <button
           onClick={() => setActiveReport('inventory')}
-          className={`pb-2.5 px-3 font-semibold border-b-2 transition-colors flex items-center gap-2 ${
+          className={`pb-2.5 px-3 font-semibold border-b-2 transition-colors flex items-center gap-2 shrink-0 ${
             activeReport === 'inventory'
               ? 'border-brand-600 text-brand-600'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -99,7 +100,7 @@ export const ReportsPage: React.FC = () => {
         </button>
         <button
           onClick={() => setActiveReport('mushak')}
-          className={`pb-2.5 px-3 font-semibold border-b-2 transition-colors flex items-center gap-2 ${
+          className={`pb-2.5 px-3 font-semibold border-b-2 transition-colors flex items-center gap-2 shrink-0 ${
             activeReport === 'mushak'
               ? 'border-brand-600 text-brand-600'
               : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -111,9 +112,10 @@ export const ReportsPage: React.FC = () => {
       </div>
 
       {/* Report Content */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-6">
-        {/* Printable Letterhead */}
-        <div className="border-b border-slate-200 pb-4 text-center">
+      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-sm space-y-6">
+        {/* Printable Letterhead with Official Logo */}
+        <div className="border-b border-slate-200 pb-4 flex flex-col items-center justify-center text-center">
+          <img src="/logo.png" alt="MediTrust Care Bangladesh" className="h-12 w-auto object-contain mb-2" />
           <h2 className="text-lg font-bold text-slate-900">MediTrust Care Bangladesh</h2>
           <p className="text-xs text-slate-600 font-medium">Enterprise Healthcare & Pharmaceutical Distribution ERP</p>
           <p className="text-[11px] text-slate-400 mt-0.5">
@@ -123,7 +125,7 @@ export const ReportsPage: React.FC = () => {
 
         {activeReport === 'sales' && (
           <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs">
               <div>
                 <p className="text-slate-400">Total Billed Sales:</p>
                 <p className="text-base font-bold text-slate-900">{formatCurrency(reportData?.summary?.totalSales || 0)}</p>
@@ -138,36 +140,38 @@ export const ReportsPage: React.FC = () => {
               </div>
             </div>
 
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
-                  <th className="p-3">Invoice #</th>
-                  <th className="p-3">Customer / Pharmacy</th>
-                  <th className="p-3">Date</th>
-                  <th className="p-3">Subtotal</th>
-                  <th className="p-3">VAT</th>
-                  <th className="p-3">Grand Total</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {reportData?.invoices?.map((inv: any) => (
-                  <tr key={inv._id}>
-                    <td className="p-3 font-mono font-medium">{inv.invoiceNumber}</td>
-                    <td className="p-3">{inv.customer?.name}</td>
-                    <td className="p-3">{new Date(inv.invoiceDate).toLocaleDateString('en-GB')}</td>
-                    <td className="p-3">{formatCurrency(inv.subtotal)}</td>
-                    <td className="p-3 text-slate-600">{formatCurrency(inv.totalVat)}</td>
-                    <td className="p-3 font-bold text-slate-900">{formatCurrency(inv.grandTotal)}</td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse min-w-[550px]">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
+                    <th className="p-3">Invoice #</th>
+                    <th className="p-3">Customer / Pharmacy</th>
+                    <th className="p-3">Date</th>
+                    <th className="p-3">Subtotal</th>
+                    <th className="p-3">VAT</th>
+                    <th className="p-3">Grand Total</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {reportData?.invoices?.map((inv: any) => (
+                    <tr key={inv._id}>
+                      <td className="p-3 font-mono font-medium">{inv.invoiceNumber}</td>
+                      <td className="p-3">{inv.customer?.name}</td>
+                      <td className="p-3">{new Date(inv.invoiceDate).toLocaleDateString('en-GB')}</td>
+                      <td className="p-3">{formatCurrency(inv.subtotal)}</td>
+                      <td className="p-3 text-slate-600">{formatCurrency(inv.totalVat)}</td>
+                      <td className="p-3 font-bold text-slate-900">{formatCurrency(inv.grandTotal)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
         {activeReport === 'inventory' && (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs">
               <div>
                 <p className="text-slate-400">Total Stock Valuation (At Cost):</p>
                 <p className="text-base font-bold text-slate-900">{formatCurrency(reportData?.summary?.totalValuation || 0)}</p>
@@ -178,71 +182,75 @@ export const ReportsPage: React.FC = () => {
               </div>
             </div>
 
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
-                  <th className="p-3">Product Name</th>
-                  <th className="p-3">Depot</th>
-                  <th className="p-3">Total Qty</th>
-                  <th className="p-3">Available</th>
-                  <th className="p-3">Average Cost</th>
-                  <th className="p-3">Total Value</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {reportData?.inventory?.map((item: any) => (
-                  <tr key={item._id}>
-                    <td className="p-3 font-semibold text-slate-800">{item.product?.name}</td>
-                    <td className="p-3">{item.warehouse?.name}</td>
-                    <td className="p-3">{item.totalQuantity}</td>
-                    <td className="p-3 font-bold text-brand-700">{item.availableQuantity}</td>
-                    <td className="p-3">{formatCurrency(item.averageCost)}</td>
-                    <td className="p-3 font-bold text-slate-900">{formatCurrency(item.totalValuation)}</td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse min-w-[550px]">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
+                    <th className="p-3">Product Name</th>
+                    <th className="p-3">Depot</th>
+                    <th className="p-3">Total Qty</th>
+                    <th className="p-3">Available</th>
+                    <th className="p-3">Average Cost</th>
+                    <th className="p-3">Total Value</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {reportData?.inventory?.map((item: any) => (
+                    <tr key={item._id}>
+                      <td className="p-3 font-semibold text-slate-800">{item.product?.name}</td>
+                      <td className="p-3">{item.warehouse?.name}</td>
+                      <td className="p-3">{item.totalQuantity}</td>
+                      <td className="p-3 font-bold text-brand-700">{item.availableQuantity}</td>
+                      <td className="p-3">{formatCurrency(item.averageCost)}</td>
+                      <td className="p-3 font-bold text-slate-900">{formatCurrency(item.totalValuation)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
         {activeReport === 'mushak' && (
           <div className="space-y-4">
-            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 flex justify-between items-center text-xs">
+            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs">
               <div>
                 <span className="font-bold text-emerald-900 text-sm">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার — জাতীয় রাজস্ব বোর্ড</span>
                 <p className="text-emerald-700 mt-0.5">মূসক-৬.৩ কর চালানপত্র রেজিস্টার (ভ্যাট আইন ও বিধিমালা অনুযায়ী প্রস্তুতকৃত)</p>
               </div>
-              <div className="text-right">
+              <div className="text-left sm:text-right">
                 <span className="font-bold text-slate-900">Total Output VAT: {formatCurrency(reportData?.totalVatPayable || 0)}</span>
               </div>
             </div>
 
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
-                  <th className="p-3">Mushak-6.3 #</th>
-                  <th className="p-3">Customer Legal Name</th>
-                  <th className="p-3">Buyer BIN</th>
-                  <th className="p-3">Date</th>
-                  <th className="p-3">Taxable Value</th>
-                  <th className="p-3">VAT (15%)</th>
-                  <th className="p-3">Invoice Total</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {reportData?.records?.map((rec: any, idx: number) => (
-                  <tr key={idx}>
-                    <td className="p-3 font-mono font-bold text-brand-700">{rec.mushakNumber}</td>
-                    <td className="p-3 font-medium text-slate-800">{rec.customerName}</td>
-                    <td className="p-3 font-mono text-[11px] text-slate-600">{rec.customerBin}</td>
-                    <td className="p-3">{new Date(rec.date).toLocaleDateString('en-GB')}</td>
-                    <td className="p-3">{formatCurrency(rec.taxableValue)}</td>
-                    <td className="p-3 font-semibold text-slate-800">{formatCurrency(rec.vatAmount)}</td>
-                    <td className="p-3 font-bold text-slate-900">{formatCurrency(rec.totalWithVat)}</td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse min-w-[650px]">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600 uppercase">
+                    <th className="p-3">Mushak-6.3 #</th>
+                    <th className="p-3">Customer Legal Name</th>
+                    <th className="p-3">Buyer BIN</th>
+                    <th className="p-3">Date</th>
+                    <th className="p-3">Taxable Value</th>
+                    <th className="p-3">VAT (15%)</th>
+                    <th className="p-3">Invoice Total</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {reportData?.records?.map((rec: any, idx: number) => (
+                    <tr key={idx}>
+                      <td className="p-3 font-mono font-bold text-brand-700">{rec.mushakNumber}</td>
+                      <td className="p-3 font-medium text-slate-800">{rec.customerName}</td>
+                      <td className="p-3 font-mono text-[11px] text-slate-600">{rec.customerBin}</td>
+                      <td className="p-3">{new Date(rec.date).toLocaleDateString('en-GB')}</td>
+                      <td className="p-3">{formatCurrency(rec.taxableValue)}</td>
+                      <td className="p-3 font-semibold text-slate-800">{formatCurrency(rec.vatAmount)}</td>
+                      <td className="p-3 font-bold text-slate-900">{formatCurrency(rec.totalWithVat)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

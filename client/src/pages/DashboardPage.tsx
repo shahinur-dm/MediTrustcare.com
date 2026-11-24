@@ -168,12 +168,12 @@ export const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Performance Trends Area Chart */}
         <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
               <h3 className="font-semibold text-slate-800 text-sm">Monthly Sales vs Purchases Performance</h3>
               <p className="text-xs text-slate-400">Actual financial transaction history over the past 6 months (BDT)</p>
             </div>
-            <span className="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-200">
+            <span className="self-start sm:self-auto text-[11px] font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-200">
               Double-Entry Ledger Verified
             </span>
           </div>
@@ -249,7 +249,7 @@ export const DashboardPage: React.FC = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
+          <table className="w-full text-left text-xs border-collapse min-w-[550px]">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold uppercase">
                 <th className="px-4 py-2.5">Product Name</th>
