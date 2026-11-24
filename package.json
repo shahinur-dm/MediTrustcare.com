@@ -1,0 +1,19 @@
+{
+  "name": "meditrust-erp",
+  "version": "1.0.0",
+  "description": "MediTrust Care Bangladesh - Enterprise Distribution & Healthcare ERP System",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"node server/dist/server.js\" \"npm run dev --prefix client\"",
+    "build": "npm run build --prefix server && npm run build --prefix client",
+    "start": "concurrently \"node server/dist/server.js\" \"npm run dev --prefix client\"",
+    "seed": "node server/dist/utils/seed.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
